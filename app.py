@@ -9,13 +9,14 @@ if "todos" not in st.session_state:
 if "new_task" not in st.session_state:
     st.session_state.new_task = ""
 
-st.text_input("タスクを入力", key="new_task")
+with st.form("add_task_form", clear_on_submit=True):
+    st.text_input("タスクを入力", key="new_task")
+    add_clicked = st.form_submit_button("追加")
 
-if st.button("追加"):
+if add_clicked:
     task_text = st.session_state.new_task.strip()
     if task_text:
         st.session_state.todos.append({"text": task_text, "done": False})
-        st.session_state.new_task = ""
         st.rerun()
     else:
         st.warning("タスクを入力してください。")
